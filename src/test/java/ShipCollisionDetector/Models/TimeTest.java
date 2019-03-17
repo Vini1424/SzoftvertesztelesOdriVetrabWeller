@@ -1,4 +1,4 @@
-package detector;
+package ShipCollisionDetector.Models;
 
 import static org.junit.jupiter.api.Assertions.*;
 

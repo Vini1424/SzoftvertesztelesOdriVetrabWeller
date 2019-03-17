@@ -1,33 +1,75 @@
-package ShipCollisionDetector.Models;
-
-import ShipCollisionDetector.Models.Enums.TimeUnit;
+package detector;
 
 public class Time {
-	TimeUnit timeUnit;
-	double timeValue;
 
-	public Time(TimeUnit timeUnit, double timeValue) {
-		this.timeUnit = timeUnit;
-		this.timeValue = timeValue;
-	}
-
-	public TimeUnit getTimeUnit() {
-		return timeUnit;
-	}
-
-	public void setTimeUnit(TimeUnit timeUnit) {
-		this.timeUnit = timeUnit;
-	}
-
-	public double getTimeValue() {
-		return timeValue;
-	}
-
-	public void setTimeValue(double timeValue) {
-		this.timeValue = timeValue;
+	double amount;
+	String timeType; 
+	
+	Time(double amount, String timeType)
+	{
+		this.amount = amount;
+		this.timeType = timeType; // s, m (60s), h (60m)
+		convertTime();
 	}
 	
-	public Boolean isOverlap(Time otherTime) {
-		return null;
+	private void convertTime()
+	{
+		switch(timeType)
+		{
+			case "s": break;
+			case "m": amount*=60; break;
+			case "h": amount*=3600; break;
+		}
+		
+		timeType = "s";
+	}
+	
+	public double as(String timeType)
+	{
+		double returnAmount=amount;
+		
+		switch(timeType)
+		{
+			case "s": break;
+			case "m": returnAmount=amount/60; break;
+			case "h": returnAmount=amount/3600; break;
+		}
+		
+		return returnAmount;
+	}
+	
+	public void multiplication(double scalar)
+	{
+		amount*=scalar;
+	}
+	
+	public void add(Time time)
+	{
+		Time t = new Time(time.getAmount(), time.getType());
+		amount += t.getAmount();
+	}
+	
+	public void subtraction(Time time)
+	{
+		Time t = new Time(time.getAmount(), time.getType());
+		amount -= t.getAmount();
+	}
+	
+	public double getAmount()
+	{
+		return amount;
+	}
+	
+	public String getType()
+	{
+		return timeType;
+	}
+	
+	public boolean compare(Time time)
+	{
+		Time t = new Time(time.getAmount(), time.getType());
+		
+		return (amount==t.getAmount())?true:false;
+		
 	}
 }
